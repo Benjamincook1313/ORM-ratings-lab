@@ -69,19 +69,30 @@ export class Rating extends Model {
   }
 };
 
-Rating.int({
-  id: {
+Rating.init({
+  ratingId: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true
-  }
-  id: {
-    type: DataTypes
-  }
-  id: {
-    type: DataTypes
+  },
+  score: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 },{
-  modelName: 'user',
+  modelName: 'rating',
   sequelize: db,
+  timestamps: true,
+  updatedAt: false
 });
+
+// RELATIONSHIPS vvvvvvvvvvvvvvvvvvvv
+
+User.hasMany(Rating, { foreignKey: "ratingId" });
+Rating.belongsTo(User, { foreignKey: "userId" });
+
+Movie.hasMany(Rating, { foreignKey: "movieId" });
+Rating.belongsTo(Movie, { foreignKey: "ratingId" });
+
+
+
